@@ -1,9 +1,16 @@
-const { app } = require('@azure/functions');
+import React, { useState, useEffect } from 'react';
 
-app.http('message', {
-    methods: ['GET', 'POST'],
-    authLevel: 'anonymous',
-    handler: async (request, context) => {
-        return { body: `Hello, from the API!` };
-    }
-});
+function App() {
+  const [data, setData] = useState('');
+
+  useEffect(() => {
+    (async function () {
+      const { text } = await( await fetch(`/api/message`)).json();
+      setData(text);
+    })();
+  });
+
+  return <div>{data}</div>;
+}
+
+export default App;
